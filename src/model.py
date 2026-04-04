@@ -8,7 +8,7 @@ from collections import defaultdict
 from torchmetrics.functional import retrieval_average_precision #, retrieval_precision
 
 from src.coprompt import MultiModalPromptLearner, Adapter, TextEncoder
-from src.utils import load_clip_to_cpu, get_all_categories, retrieval_precision, visualize_tsne
+from src.utils import load_clip_to_cpu, get_all_categories, retrieval_precision
 from src.losses import loss_fn
 from src.data_config import VISUALIZE_CLASSES, UNSEEN_CLASSES
 
@@ -185,8 +185,7 @@ class ZS_SBIR(pl.LightningModule):
         if self.args.visualize:
             # visualize_classes = UNSEEN_CLASSES[self.args.dataset]
             visualize_classes = VISUALIZE_CLASSES[self.args.dataset]
-            visualize_tsne(visualize_classes, self.saved_features, mode="photo")
-            visualize_tsne(visualize_classes, self.saved_features, mode="sketch")
+
         else:
             query_len = len(self.val_step_outputs_sk)
             gallery_len = len(self.val_step_outputs_ph)
