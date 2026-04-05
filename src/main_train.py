@@ -50,6 +50,8 @@ if __name__ == "__main__":
     parser.add_argument("--gamma", type=float, default=0.1)
     parser.add_argument("--beta", type=float, default=0.1)
     parser.add_argument("--lambd", type=float, default=0.1)
+    parser.add_argument("--a", type=float, default=1.0)
+    parser.add_argument("--b", type=float, default=0.4)
     
     parser.add_argument("--lr", type=float, default=2e-5)
     parser.add_argument('--batch_size', type=int, default=32)
