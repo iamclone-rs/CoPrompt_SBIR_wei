@@ -87,7 +87,7 @@ def loss_fn(args, model, features, mode='train'):
     
     nt_xent_loss = nt_xent(photo_features, sk_features)
     a = 1
-    b = 0
+    b = 0.2
     total_loss = (
         a * loss_cls \
         + loss_triplet \
