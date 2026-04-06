@@ -23,6 +23,20 @@ def freeze_all_but_bn(m):
             m.weight.requires_grad_(False)
         if hasattr(m, 'bias') and m.bias is not None:
             m.bias.requires_grad_(False)
+
+def freeze_all_but_ln_pre(model):
+    """Freeze everything in the model, then unfreeze only ln_pre."""
+    model.requires_grad_(False)
+    for name, param in model.named_parameters():
+        if 'ln_pre' in name:
+            param.requires_grad_(True)
+
+def freeze_all_but_ln_post(model):
+    """Freeze everything in the model, then unfreeze only ln_post."""
+    model.requires_grad_(False)
+    for name, param in model.named_parameters():
+        if 'ln_post' in name:
+            param.requires_grad_(True)
             
 class CustomCLIP(nn.Module):
     def __init__(
@@ -31,7 +45,12 @@ class CustomCLIP(nn.Module):
         super().__init__()
         self.cfg = cfg
         clip_model.apply(freeze_all_but_bn)
-        clip_model_distill.apply(freeze_all_but_bn)
+        if cfg.distill_freeze == 'pre':
+            freeze_all_but_ln_pre(clip_model_distill)
+        elif cfg.distill_freeze == 'post':
+            freeze_all_but_ln_post(clip_model_distill)
+        else:  # full
+            clip_model_distill.apply(freeze_all_but_bn)
         self.dtype = clip_model.dtype
         self.prompt_learner_photo = MultiModalPromptLearner(cfg, clip_model_distill, type='photo')
         self.prompt_learner_sketch = MultiModalPromptLearner(cfg, clip_model_distill, type='sketch')

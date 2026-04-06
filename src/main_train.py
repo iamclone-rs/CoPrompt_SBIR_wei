@@ -44,6 +44,8 @@ if __name__ == "__main__":
     parser.add_argument("--data_split", type=int, default=-1)
     parser.add_argument("--prec", type=str, default="fp16")
     parser.add_argument("--distill", type=str, default="cosine")
+    parser.add_argument("--distill_freeze", type=str, default="full", choices=["full", "pre", "post"],
+                        help="freeze mode for distill branch: full=all LayerNorm, pre=only ln_pre, post=only ln_post")
     parser.add_argument("--temperature", type=float, default=0.07)
     parser.add_argument("--proportion", type=float, default=1.0)
     parser.add_argument("--alpha", type=float, default=0.8)
