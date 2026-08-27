@@ -89,8 +89,6 @@ def loss_fn(args, model, features, mode='train'):
 
     total_loss = (
         args.a * loss_cls \
-        + loss_triplet \
-        + loss_distill \
         + args.b * nt_xent_loss
     )
     
